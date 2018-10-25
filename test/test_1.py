@@ -1,5 +1,7 @@
 import unittest
-from app.model.classifier.Analyze import Analyze_content
+import os
+from app.model.classifier.Analyze import Analyze_content as Az
+from app import auth, api, db, home
 
 class TestAnalyze(unittest.TestCase):
 

@@ -27,8 +27,7 @@ import re
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer as VS
 from textstat.textstat import *
 
-
-stopwords=stopwords = nltk.corpus.stopwords.words("english")
+stopwords = nltk.corpus.stopwords.words("english")
 
 other_exclusions = ["#ff", "ff", "rt"]
 stopwords.extend(other_exclusions)
@@ -249,7 +248,7 @@ if __name__ == '__main__':
     df = pd.read_csv('trump_tweets.csv')
     trump_tweets = df.Text
     trump_tweets = [x for x in trump_tweets if type(x) == str]
-    trump_predictions = get_tweets_predictions(trump_tweetsz)
+    trump_predictions = get_tweets_predictions(trump_tweets)
 
     print "Printing predicted values: "
     for i,t in enumerate(trump_tweets):
