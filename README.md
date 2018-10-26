@@ -8,23 +8,40 @@ python run_flask.py
 # Do not use flask run
 ```
 
+## Sample request
+POST: localhost:5000/api/url
+
+body:
+```
+url: https://en.wikipedia.org/wiki/Twitter
+```
+
+GET: localhost:5000/api/test/test
+
+## TODO
+
+1. implement more functionality in app/rest.py
+2. implement login and logout system in auth.py and home.py, I guess if user could get an overview in 
+his home page would be great. As well as register part. Right now this part is totally same with falskr,
+flask official tutorial.
+3. unit test
+4. implement dockerfile, CI, server config etc..
+
 ## Requirements:
+Use python 2.7
+
 see requirements.txt
+
+install all requirements by
+```bash
+pip install -r requirements.txt
+```
 
 ## Error and fix
 - run following
-```
-  >>> import nltk
-  >>> nltk.download('stopwords')
-  Searched in:
-    - 'C:\\Users\\Pengyu Chen/nltk_data'
-    - 'C:\\nltk_data'
-    - 'D:\\nltk_data'
-    - 'E:\\nltk_data'
-    - 'C:\\Miniconda3\\envs\\ase\\nltk_data'
-    - 'C:\\Miniconda3\\envs\\ase\\share\\nltk_data'
-    - 'C:\\Miniconda3\\envs\\ase\\lib\\nltk_data'
-    - 'C:\\Users\\Pengyu Chen\\AppData\\Roaming\\nltk_data'
+```python
+import nltk
+nltk.download('all')  
 ```
 
 
@@ -45,12 +62,6 @@ for attribute in dir(textstat):
 
 ```
 
-- run this
-
-```python
-import nltk
-nltk.download('averaged_perceptron_tagger')
-```
 
 ## Credit
 The nlp part is from https://github.com/t-davidson/hate-speech-and-offensive-language.git
