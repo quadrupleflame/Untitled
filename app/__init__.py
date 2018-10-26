@@ -1,8 +1,16 @@
 import os
 from flask import Flask
+from flask_restful import Api
+from flask import Blueprint
+
+
+api_bp = Blueprint('api', __name__)
+api = Api(api_bp)
 
 
 def create_app(test_config=None):
+    # pack = importlib.import_module('app.model.hate_speech.classifier')
+
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
@@ -32,5 +40,10 @@ def create_app(test_config=None):
     from . import home
     app.register_blueprint(home.bp)
     app.add_url_rule('/', endpoint='index')
+
+    from . import rest
+    api.add_resource(rest.Test, '/api/test/<test_val>')
+    api.add_resource(rest.URLAnalysis, '/api/url')
+    app.register_blueprint(api_bp)
 
     return app
