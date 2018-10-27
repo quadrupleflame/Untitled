@@ -9,7 +9,6 @@ api = Api(api_bp)
 
 
 def create_app(test_config=None):
-    # pack = importlib.import_module('app.model.hate_speech.classifier')
 
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
@@ -22,10 +21,11 @@ def create_app(test_config=None):
     else:
         app.config.from_mapping(test_config)
 
-    try:
-        os.mkdir(app.instance_path)
-    except OSError:
-        pass
+    if not os.path.isdir(app.instance_path):
+        try:
+            os.mkdir(app.instance_path)
+        except OSError:
+            raise OSError('Cannot create instance path')
 
     @app.route('/hello')
     def hello():
@@ -44,6 +44,8 @@ def create_app(test_config=None):
     from . import rest
     api.add_resource(rest.Test, '/api/test/<test_val>')
     api.add_resource(rest.URLAnalysis, '/api/url')
+    api.add_resource(rest.TextAnalysis, '/api/text')
+    api.add_resource(rest.TextMask, '/api/mask')
     app.register_blueprint(api_bp)
 
     return app
