@@ -17,6 +17,7 @@ def analyze_content(_str):
 
 
 if __name__ == '__main__':
+    from classifier import tokenize as tokenize,preprocess
     test_str = "https://en.wikipedia.org/wiki/Twitter"
     print type(test_str)
     result = analyze_content(test_str)
