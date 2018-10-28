@@ -2,6 +2,9 @@ import sqlite3
 from flask import current_app, g
 from flask.cli import with_appcontext
 import click
+# from flask_sqlalchemy import Model, SQLAlchemy
+# import sqlalchemy as sa
+# from sqlalchemy.ext.declarative import declared_attr, has_inherited_table
 
 
 def init_db():

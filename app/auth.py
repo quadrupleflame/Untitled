@@ -2,9 +2,26 @@ import functools
 from flask import Blueprint, flash, g, redirect, render_template, request,session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.db import get_db
+from flask_httpauth import HTTPBasicAuth
 
+auth = HTTPBasicAuth()
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+
+@auth.verify_password
+def verify_password(username, password):
+    db = get_db()
+    user = db.execute(
+        'SELECT * FROM user WHERE username = ?', (username,)
+    ).fetchone()
+    error = None
+    if user is None:
+        error = 'Incorrect username.'
+    elif not check_password_hash(user['password'], password):
+        error = 'Incorrect password.'
+
+    return error is None
 
 
 @bp.route('/register', methods=('GET', 'POST'))
