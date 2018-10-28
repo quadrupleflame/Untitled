@@ -1,0 +1,7 @@
+repos:
+-   repo: https://github.com/chengxuHawkwood/Untitled
+    rev: master
+    hooks:
+    -   id: test
+        language: python
+        files: test_*.py
