@@ -8,15 +8,9 @@ import threading
 class TestApp(unittest.TestCase):
 
     def setUp(self, *args):
-        self.flask=create_app()
-        def run_server():
-            self.flask.run()
-        self.server_thread = threading.Thread(target=run_server(), daemon=True)
-        # self.server_thread.start()
         return
 
     def tearDown(self):
-        sys.exit()
         pass
 
     def test_init(self):
@@ -41,6 +35,7 @@ class TestApp(unittest.TestCase):
 
     def test_home(self):
         pass
+
 
 if __name__ == '__main__':
     unittest.main()
