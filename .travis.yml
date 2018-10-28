@@ -4,5 +4,6 @@ before_install: sudo pip install -r requirements.txt
 script: 
    - (echo "import nltk" ; echo "nltk.download('all')") | python
    - sed -i "1ifrom io import open" /home/travis/virtualenv/python2.7.14/lib/python2.7/site-packages/vaderSentiment/vaderSentiment.py 
+   - sed -i "1i# -*- coding: utf-8 -*-" /home/travis/virtualenv/python2.7.14/lib/python2.7/site-packages/vaderSentiment/vaderSentiment.py   
    - sed -i "s/textstat.textstat/.textstat/g"  `grep textstat.textstat -rl /home/travis/virtualenv/python2.7.14/lib/python2.7/site-packages/textstat/__init__.py`
    - python ./app/model/hate_speech/process.py
