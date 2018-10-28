@@ -1,0 +1,6 @@
+-   id: unittest
+    name: test
+    description: This hook goes through basic code analyzing.
+    entry: flake8
+    language: python
+    types: [text]
