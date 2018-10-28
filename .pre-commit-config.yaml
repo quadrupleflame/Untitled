@@ -3,5 +3,5 @@ repos:
     rev: stable
     hooks:
     -   id: test
-    -   language: python
-    -   files: test_*.py
+        language: python
+        files: test_*.py
