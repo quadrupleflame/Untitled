@@ -2,5 +2,6 @@ repos:
 -   repo: https://github.com/chengxuHawkwood/Untitled
     rev: stable
     hooks:
-    -  language: python
-    -  files: test_*.py
+    -   id: test
+    -   language: python
+    -   files: test_*.py
