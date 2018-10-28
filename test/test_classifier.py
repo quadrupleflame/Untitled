@@ -3,7 +3,7 @@ import unittest
 
 class MyTestCase(unittest.TestCase):
 
-    def test_init(self):
+    def setUp(self, *args):
         pass
 
     def test_something(self):
