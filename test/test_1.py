@@ -1,11 +1,11 @@
 import unittest
 import os
-from app.model.classifier.Analyze import Analyze_content as Az
 from flask import Flask
 from app import auth, api, db, home, create_app
+from app.model.hate_speech import process
 
 
-class TestAnalyze(unittest.TestCase):
+class test_app(unittest.TestCase):
 
     def test_init(self):
         app = create_app()
