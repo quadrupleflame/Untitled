@@ -6,7 +6,7 @@ from app.model.hate_speech import classifier
 class TestAnalyzer(unittest.TestCase):
 
     def setUp(self):
-        self.analyzer = Analyzer()
+        # self.analyzer = Analyzer()
         pass
 
     def test_preprocess(self):
