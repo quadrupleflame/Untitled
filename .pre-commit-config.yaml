@@ -1,0 +1,6 @@
+repos:
+-   repo: https://github.com/chengxuHawkwood/Untitled
+    rev: stable
+    hooks:
+      language_version: python 2.7
+      files: test_*.py
