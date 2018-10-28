@@ -1,20 +1,30 @@
 import unittest
-import os
-from app.model.classifier.Analyze import Analyze_content as Az
+import os, sys
 from flask import Flask
 from app import auth, api, db, home, create_app
+import threading
 
 
-class TestAnalyze(unittest.TestCase):
+class TestApp(unittest.TestCase):
+
+    def setUp(self, *args):
+        self.flask=create_app()
+        def run_server():
+            self.flask.run()
+        self.server_thread = threading.Thread(target=run_server(), daemon=True)
+        # self.server_thread.start()
+        return
+
+    def tearDown(self):
+        sys.exit()
+        pass
 
     def test_init(self):
-        app = create_app()
-        self.assertEqual(type(app), Flask)
+        self.assertEqual(type(self.flask), Flask)
         self.assertEqual('foo'.upper(), 'FOO')
 
     def test_db(self):
-        app = create_app()
-        database = db.init_app(app)
+        database = db.init_app(self.flask)
         self.assertEqual(type(database), type(None))
         self.assertTrue('FOO'.isupper())
         self.assertFalse('Foo'.isupper())
