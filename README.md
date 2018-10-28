@@ -37,6 +37,11 @@ install all requirements by
 pip install -r requirements.txt
 ```
 
+set sqlite
+```bash
+flask init-db
+```
+
 ## Error and fix
 - run following
 ```python
