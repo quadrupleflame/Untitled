@@ -9,4 +9,5 @@ script:
    - sed -i "14ifrom io import open" /home/travis/virtualenv/python2.7.14/lib/python2.7/site-packages/vaderSentiment/vaderSentiment.py  
    - sed -i "s/textstat.textstat/.textstat/g"  `grep textstat.textstat -rl /home/travis/virtualenv/python2.7.14/lib/python2.7/site-packages/textstat/__init__.py`
    - python ./app/model/hate_speech/process.py
+   - pytest ./test/TestApp.py
    
