@@ -1,6 +1,6 @@
 repos:
 -   repo: https://github.com/chengxuHawkwood/Untitled
-    rev: stable
+    rev: master
     hooks:
     -   id: test
         language: python
