@@ -4,9 +4,74 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app.db import get_db
 from flask_httpauth import HTTPBasicAuth
 
+from flask_oauth import OAuth
+
+GOOGLE_CLIENT_ID = '911597646420-mt05m86o6knmunvn3pfmjc5n83c4qo9h.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = '-WOQAJgcUV6ksGAc6VCp38qu'
+REDIRECT_URI = '/gCallback'
+oauth = OAuth()
+
+
+google = oauth.remote_app('google',
+                          base_url='https://www.google.com/accounts/',
+                          authorize_url='https://accounts.google.com/o/oauth2/auth',
+                          request_token_url=None,
+                          request_token_params={'scope': 'https://www.googleapis.com/auth/userinfo.email',
+                                                'response_type': 'code'},
+                          access_token_url='https://accounts.google.com/o/oauth2/token',
+                          access_token_method='POST',
+                          access_token_params={'grant_type': 'authorization_code'},
+                          consumer_key=GOOGLE_CLIENT_ID,
+                          consumer_secret=GOOGLE_CLIENT_SECRET)
+
 auth = HTTPBasicAuth()
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+@bp.route('/g')
+def gindex():
+    access_token = session.get('access_token')
+    if access_token is None:
+        return redirect('auth/gLogin')
+ 
+    access_token = access_token[0]
+    from urllib2 import Request, urlopen, URLError
+ 
+    headers = {'Authorization': 'OAuth '+access_token}
+    req = Request('https://www.googleapis.com/oauth2/v1/userinfo',
+                  None, headers)
+    try:
+        res = urlopen(req)
+    except URLError, e:
+        if e.code == 401:
+            # Unauthorized - bad token
+            session.pop('access_token', None)
+            return redirect(url_for('login'))
+        return res.read()
+    #me = google.get('userinfo')
+    #return jsonify({"data": me.data})
+    #return res.read()
+    user = {'username':"GoogleUser"}
+    g.user = user
+    return render_template('base.html')
+
+@bp.route('/gLogin')
+def glogin():
+    callback=url_for('auth.authorized', _external=True)
+    return google.authorize(callback=callback)
+
+@bp.route(REDIRECT_URI)
+@google.authorized_handler
+def authorized(resp):
+    access_token = resp['access_token']
+    session['access_token'] = access_token, ''
+    return redirect(url_for('auth.gindex'))
+
+
+@google.tokengetter
+def get_google_oauth_token():
+    return session.get('google_token')
+
 
 
 @auth.verify_password
@@ -53,7 +118,6 @@ def register():
 
     return render_template('auth/register.html')
 
-
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
@@ -78,6 +142,8 @@ def login():
         flash(error)
 
     return render_template('auth/login.html')
+
+
 
 
 @bp.before_app_request

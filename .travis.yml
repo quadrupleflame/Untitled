@@ -1,0 +1,19 @@
+language: python
+sudo: required
+branches:
+  only:
+   - master
+before_install: 
+   - sudo pip install -r requirements.txt > build.txt
+   - sudo pip install flake8 >> build.txt
+   - sudo apt-get install git
+script: 
+   - flake8 ../Untitled --exit-zero > static_analysis.txt
+   - (echo "import nltk" ; echo "nltk.download('all')") | python >> build.txt
+   - sed -i "14ifrom io import open" /home/travis/virtualenv/python2.7.14/lib/python2.7/site-packages/vaderSentiment/vaderSentiment.py  
+   - sed -i "s/textstat.textstat/.textstat/g"  `grep textstat.textstat -rl /home/travis/virtualenv/python2.7.14/lib/python2.7/site-packages/textstat/__init__.py`
+   - python ./app/model/hate_speech/process.py > integration_test.txt
+   - pytest ./test/TestApp.py > unit_test.txt
+   - git add . 
+   - git commit -m "new report"
+   - git push origin master:test
