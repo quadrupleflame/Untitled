@@ -3,6 +3,15 @@ import os, sys
 from flask import Flask
 from app import auth, api, db, home, create_app
 import threading
+import pytest
+import requests
+
+global flask
+
+@pytest.fixture()
+def server():
+    flask = create_app()
+    flask.run(host="localhost", port=5000)
 
 
 class TestApp(unittest.TestCase):
@@ -14,12 +23,12 @@ class TestApp(unittest.TestCase):
         pass
 
     def test_init(self):
-        # self.assertEqual(type(self.flask), Flask)
+        self.assertEqual(type(flask), Flask)
         self.assertEqual('foo'.upper(), 'FOO')
 
     def test_db(self):
-        # database = db.init_app(self.flask)
-        # self.assertEqual(type(database), type(None))
+        database = db.init_app(flask)
+        self.assertEqual(type(database), type(None))
         self.assertTrue('FOO'.isupper())
         self.assertFalse('Foo'.isupper())
 
