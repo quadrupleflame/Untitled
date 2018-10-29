@@ -1,7 +1,14 @@
 repos:
--   repo: https://github.com/chengxuHawkwood/Untitled
+-   repo: https://github.com/ambv/black
     rev: master
     hooks:
-    -   id: test
-        language: python
-        files: test_*.py
+    -   id: black
+        language: system
+        language_version: python2.7
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: master
+    hooks:
+    -   id: flake8
+        language: system
+    -   id: pretty-format-json
+        language: system
