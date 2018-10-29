@@ -5,8 +5,8 @@ repos:
     -   id: flake8
         language: system
     -   id: pretty-format-json
-        args: --autofix
+        args: [--autofix]
         language: system
     -   id: check-json
     -   id: mixed-line-ending
-        args: --fix lf
+        args: [--fix lf]
