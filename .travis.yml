@@ -16,5 +16,4 @@ script:
    - pytest ./test/TestApp.py > unit_test.txt
    - git add . 
    - git commit -m "new report"
-   - git remote add origin https://github.com/chengxuHawkwood/Untitled.git
    - git push --set-upstream origin test
