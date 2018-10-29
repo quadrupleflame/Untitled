@@ -16,4 +16,4 @@ script:
    - pytest ./test/TestApp.py > unit_test.txt
    - git add . 
    - git commit -m "new report"
-   - git push origin master:test
+   - git push "https://${GH_TOKEN}@github.com/chengxuHawkwood/Untitled.git" master:test
