@@ -17,4 +17,4 @@ script:
    - git checkout test
    - git add . 
    - git commit -m "new report"
-   - git push "https://${GH_TOKEN}@github.com/chengxuHawkwood/Untitled.git" test:test
+   - git push -u "https://${GH_TOKEN}@github.com/chengxuHawkwood/Untitled.git" test:test
