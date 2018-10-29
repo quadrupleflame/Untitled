@@ -27,4 +27,3 @@ vaderSentiment==3.2.1
 Werkzeug==0.14.1
 wincertstore==0.2
 Flask-OAuth==0.12
-pre-commit==1.12.0
