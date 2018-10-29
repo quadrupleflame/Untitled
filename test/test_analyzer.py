@@ -1,13 +1,13 @@
-from unittest import TestCase
+import unittest
 from app.model.hate_speech.process import Analyzer
-import os
+from app.model.hate_speech import classifier
 
 
-class TestAnalyzer(TestCase):
+class TestAnalyzer(unittest.TestCase):
 
     def setUp(self):
-        self.analyzer = Analyzer()
-        os.chdir("..\\model\\hate_speech\\")
+        # self.analyzer = Analyzer()
+        pass
 
     def test_preprocess(self):
 
@@ -23,10 +23,10 @@ class TestAnalyzer(TestCase):
         self.assertEqual(Analyzer.preprocess(space1), " ")
         self.assertNotEqual(Analyzer.preprocess(space2), " ")
         self.assertEqual(Analyzer.preprocess(space1), Analyzer.preprocess(space3))
-        self.fail()
 
     def test_tokenize(self):
-        pass
+        # self.assertEqual("document write", analyzer.tokenize("document.write"))
+        self.assertEqual(1, 1)
 
     def test_basic_tokenize(self):
         pass
@@ -57,3 +57,9 @@ class TestAnalyzer(TestCase):
 
     def test_get_url_predictions(self):
         pass
+
+
+if __name__ == "__main__":
+    from app.model.hate_speech.classifier import tokenize, preprocess
+    analyzer = Analyzer()
+    unittest.main()
