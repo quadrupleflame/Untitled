@@ -16,4 +16,4 @@ script:
    - pytest ./test/TestApp.py > unit_test.txt
    - git add . 
    - git commit -m "new report"
-   - git push --set-upstream origin test
+   - git push origin master:test
