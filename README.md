@@ -18,6 +18,9 @@ url: https://en.wikipedia.org/wiki/Twitter
 
 GET: localhost:5000/api/test/test
 
+## Auth
+all api require password and username in authorization header. Use Http Basic Auth now.
+
 ## TODO
 
 1. implement more functionality in app/rest.py
