@@ -1,5 +1,0 @@
--   id: unittest
-    description: This hook goes through basic code analyzing.
-    entry: flake8
-    language: python
-    types: [text]
