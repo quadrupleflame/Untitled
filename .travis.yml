@@ -14,8 +14,7 @@ script:
    - sed -i "s/textstat.textstat/.textstat/g"  `grep textstat.textstat -rl /home/travis/virtualenv/python2.7.14/lib/python2.7/site-packages/textstat/__init__.py`
    - python ./app/model/hate_speech/process.py > ./integration_test.txt
    - pytest ./test/TestApp.py > ./unit_test.txt
-   - git checkout -b test
+   - git checkout -b test origin/test
    - git add . 
    - git commit -m "new report"
-   - git pull
    - git push -u "https://${GH_TOKEN}@github.com/chengxuHawkwood/Untitled.git" test:test
