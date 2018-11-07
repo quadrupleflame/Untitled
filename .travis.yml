@@ -7,6 +7,9 @@ before_install:
    - sudo pip install -r requirements.txt > ./build.txt
    - sudo pip install flake8 >> ./build.txt
    - sudo apt-get install git
+before_script:
+  - git config --global user.email "2041829103@qq.com"
+  - git config --global user.name "chengxuHawkwood"
 script: 
    - flake8 ../Untitled --exit-zero > ./static_analysis.txt
    - (echo "import nltk" ; echo "nltk.download('all')") | python >> ./build.txt
