@@ -7,6 +7,7 @@ before_install:
    - sudo pip install -r requirements.txt > ./build.txt
    - sudo pip install flake8 >> ./build.txt
    - sudo pip install coverage
+   - sudo pip install pytest
    - sudo pip install flask_httpauth >> ./build.txt
    - sudo apt-get install git
 before_script:
@@ -17,6 +18,7 @@ script:
    - (echo "import nltk" ; echo "nltk.download('all')") | python >> ./build.txt
    - sed -i "14ifrom io import open" /home/travis/virtualenv/python2.7.14/lib/python2.7/site-packages/vaderSentiment/vaderSentiment.py  
    - sed -i "s/textstat.textstat/.textstat/g"  `grep textstat.textstat -rl /home/travis/virtualenv/python2.7.14/lib/python2.7/site-packages/textstat/__init__.py`
+   - sed -i "s/textstat.textstat/.textstat/g"  `grep textstat.textstat -rl /usr/local/lib/python2.7/dist-packages/textstat/__init__.py`
    - python ./app/model/hate_speech/process.py > ./integration_test.txt
    - pytest ./test/TestApp.py > ./unit_test.txt
    - pytest ./test/test_classifier.py >> ./unit_test.txt
