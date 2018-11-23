@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_restful import Api
 from flask import Blueprint
-
+from flask_bootstrap import Bootstrap
 
 api_bp = Blueprint('api', __name__)
 api = Api(api_bp)
@@ -47,5 +47,6 @@ def create_app(test_config=None):
     api.add_resource(rest.TextAnalysis, '/api/text')
     api.add_resource(rest.TextMask, '/api/mask')
     app.register_blueprint(api_bp)
-
+    
+    bootstrap = Bootstrap(app)
     return app

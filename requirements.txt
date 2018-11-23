@@ -27,3 +27,4 @@ vaderSentiment==3.2.1
 Werkzeug==0.14.1
 wincertstore==0.2
 Flask-OAuth==0.12
+Flask-Bootstrap==3.3.7.1
