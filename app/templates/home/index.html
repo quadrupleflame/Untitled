@@ -25,4 +25,7 @@
       <hr>
     {% endif %}
   {% endfor %}
+  {% if g.user %}
+  	<p> welcome {{g.user}}</p>
+  {% endif %}
 {% endblock %}

@@ -8,7 +8,7 @@ from auth import check_password_hash
 
 #auth = HTTPBasicAuth()
 
-
+'''
 @auth.verify_password
 def verify_password(username, password):
     db = get_db()
@@ -22,7 +22,7 @@ def verify_password(username, password):
         error = 'Incorrect password.'
 
     return error is None
-
+'''
 
 class Test(Resource):
     decorators = [auth.login_required]

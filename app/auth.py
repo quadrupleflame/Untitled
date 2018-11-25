@@ -2,16 +2,17 @@ import functools
 from flask import Blueprint, flash, g, redirect, render_template, request,session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.db import get_db
-from flask_httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 
 from flask_oauth import OAuth
 from flask_httpauth import HTTPBasicAuth
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 GOOGLE_CLIENT_ID = '911597646420-mt05m86o6knmunvn3pfmjc5n83c4qo9h.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = '-WOQAJgcUV6ksGAc6VCp38qu'
 REDIRECT_URI = '/gCallback'
 oauth = OAuth()
-auth = HTTPBasicAuth()
+#auth = HTTPBasicAuth()
 
 google = oauth.remote_app('google',
                           base_url='https://www.google.com/accounts/',
@@ -26,8 +27,39 @@ google = oauth.remote_app('google',
                           consumer_secret=GOOGLE_CLIENT_SECRET)
 
 auth = HTTPBasicAuth()
+#auth = HTTPTokenAuth(scheme = 'Token')
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+
+@bp.route('/test')
+def generate_token():
+    s = Serializer('SECRET_KEY', expires_in = 6000)
+    return s.dumps({'username':'testtoken'})
+
+@bp.route('token')
+@auth.login_required
+def test_token():
+    return "hello %s"%g.user
+
+@auth.verify_password
+def verify_password(username, password):
+    s = Serializer('SECRET_KEY')
+    try:
+        data = s.loads(password)
+    except:
+        return False
+    db = get_db()
+    user = db.execute(
+        'SELECT * FROM user WHERE username = ?', (username,)
+    ).fetchone()
+    if not user:
+        return False
+    elif username != data['username']:
+        return False
+    else:
+        g.user = data['username']
+        return True
 
 @bp.route('/g')
 def gindex():
@@ -73,8 +105,7 @@ def authorized(resp):
 def get_google_oauth_token():
     return session.get('google_token')
 
-
-
+'''
 @auth.verify_password
 def verify_password(username, password):
     db = get_db()
@@ -86,9 +117,8 @@ def verify_password(username, password):
         error = 'Incorrect username.'
     elif not check_password_hash(user['password'], password):
         error = 'Incorrect password.'
-
     return error is None
-
+'''
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
@@ -138,6 +168,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['user_id']
+            g.user = username
             return redirect(url_for('index'))
 
         flash(error)
@@ -163,7 +194,6 @@ def load_logged_in_user():
 def logout():
     session.clear()
     return redirect(url_for('index'))
-
 
 def login_required(view):
     @functools.wraps(view)

@@ -5,7 +5,7 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from app.auth import login_required
+#from app.auth import login_required
 from app.db import get_db
 
 bp = Blueprint('home', __name__)
@@ -14,6 +14,7 @@ bp = Blueprint('home', __name__)
 @bp.route('/')
 def index():
     # db = get_db()
+
     return render_template('home/index.html')
 
 
