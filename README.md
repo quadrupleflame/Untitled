@@ -1,5 +1,6 @@
 # ASE Untitled project
 
+
 ## How to run
 
 ```bash
@@ -17,6 +18,9 @@ url: https://en.wikipedia.org/wiki/Twitter
 ```
 
 GET: localhost:5000/api/test/test
+
+## Auth
+all api require password and username in authorization header. Use Http Basic Auth now.
 
 ## TODO
 
@@ -70,3 +74,4 @@ for attribute in dir(textstat):
 
 ## Credit
 The nlp part is from https://github.com/t-davidson/hate-speech-and-offensive-language.git
+
