@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from .model.hate_speech import process
 from flask import request
-
+from .auth import auth
 
 class BaseResource(Resource):
     def HMAC_enocde(self):
@@ -9,11 +9,12 @@ class BaseResource(Resource):
 
 
 class Test(Resource):
+    decorators = [auth.login_required]
     def get(self, test_val):
         return {'test': 'Hello World, test_val:{}'.format(test_val)}
 
-
 class URLAnalysis(Resource):
+    decorators = [auth.login_required]
     def __init__(self):
         super(URLAnalysis, self).__init__()
         self.model = process.Analyzer()
@@ -21,7 +22,6 @@ class URLAnalysis(Resource):
     def get(self):
         # TODO get should return an instruction of how to post
         pass
-
     def post(self):
         body = request.form.get('url')
         try:
@@ -38,6 +38,7 @@ class URLAnalysis(Resource):
 
 
 class TextAnalysis(Resource):
+    decorators = [auth.login_required]
     def __init__(self):
         super(TextAnalysis, self).__init__()
         self.model = process.Analyzer()
@@ -62,6 +63,7 @@ class TextAnalysis(Resource):
 
 
 class TextMask(Resource):
+    decorators = [auth.login_required]
     def __init__(self):
         self.model = process.WordMasker()
 

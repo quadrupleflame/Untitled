@@ -3,12 +3,13 @@ from flask import Blueprint, flash, g, redirect, render_template, request,sessio
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.db import get_db
 from flask_oauth import OAuth
+from flask_httpauth import HTTPBasicAuth
 
 GOOGLE_CLIENT_ID = '911597646420-mt05m86o6knmunvn3pfmjc5n83c4qo9h.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = '-WOQAJgcUV6ksGAc6VCp38qu'
 REDIRECT_URI = '/gCallback'
 oauth = OAuth()
-
+auth = HTTPBasicAuth()
 
 google = oauth.remote_app('google',
                           base_url='https://www.google.com/accounts/',

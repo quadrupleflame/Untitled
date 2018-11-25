@@ -7,7 +7,6 @@ from flask_bootstrap import Bootstrap
 api_bp = Blueprint('api', __name__)
 api = Api(api_bp)
 
-
 def create_app(test_config=None):
 
     app = Flask(__name__, instance_relative_config=True)
@@ -26,10 +25,10 @@ def create_app(test_config=None):
             os.mkdir(app.instance_path)
         except OSError:
             raise OSError('Cannot create instance path')
-
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
+
 
     from . import db
     db.init_app(app)
@@ -48,5 +47,6 @@ def create_app(test_config=None):
     api.add_resource(rest.TextMask, '/api/mask')
     app.register_blueprint(api_bp)
     
+
     bootstrap = Bootstrap(app)
     return app
