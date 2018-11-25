@@ -50,6 +50,11 @@
   	{% endfor %}
     {% endblock %}
 </div>
+{% if g.user %}
+        <p> welcome {{g.user['username']}}</p>
+        <p> token: {{session['token']}} </p>
+{% endif %}
+
 {% endblock %}
 
 

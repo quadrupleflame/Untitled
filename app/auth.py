@@ -7,6 +7,7 @@ from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 from flask_oauth import OAuth
 from flask_httpauth import HTTPBasicAuth
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+import json
 
 GOOGLE_CLIENT_ID = '911597646420-mt05m86o6knmunvn3pfmjc5n83c4qo9h.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = '-WOQAJgcUV6ksGAc6VCp38qu'
@@ -33,14 +34,18 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
 @bp.route('/test')
+def test():
+    session['token'] = generate_token()
+    return session['token']
+
 def generate_token():
     s = Serializer('SECRET_KEY', expires_in = 6000)
-    return s.dumps({'username':'testtoken'})
+    return s.dumps({'username':session['username']})
 
 @bp.route('token')
 @auth.login_required
 def test_token():
-    return "hello %s"%g.user
+    return "hello "
 
 @auth.verify_password
 def verify_password(username, password):
@@ -54,11 +59,12 @@ def verify_password(username, password):
         'SELECT * FROM user WHERE username = ?', (username,)
     ).fetchone()
     if not user:
-        return False
+        return True
+        #return False
     elif username != data['username']:
         return False
     else:
-        g.user = data['username']
+        #g.user = data['username']
         return True
 
 @bp.route('/g')
@@ -84,8 +90,13 @@ def gindex():
     #me = google.get('userinfo')
     #return jsonify({"data": me.data})
     #return res.read()
-    user = {'username':"GoogleUser"}
+    res_json = json.loads(res.read())
+    #res_json['email']
+    user = {'username':res_json['email']}
     g.user = user
+    session['username'] = user['username']
+    session['token'] = generate_token()
+
     return render_template('base.html')
 
 @bp.route('/gLogin')
@@ -105,20 +116,18 @@ def authorized(resp):
 def get_google_oauth_token():
     return session.get('google_token')
 
-'''
-@auth.verify_password
-def verify_password(username, password):
-    db = get_db()
-    user = db.execute(
-        'SELECT * FROM user WHERE username = ?', (username,)
-    ).fetchone()
-    error = None
-    if user is None:
-        error = 'Incorrect username.'
-    elif not check_password_hash(user['password'], password):
-        error = 'Incorrect password.'
-    return error is None
-'''
+#@auth.verify_password
+#def verify_password(username, password):
+#    db = get_db()
+#    user = db.execute(
+#        'SELECT * FROM user WHERE username = ?', (username,)
+#    ).fetchone()
+#    error = None
+#    if user is None:
+#        error = 'Incorrect username.'
+#    elif not check_password_hash(user['password'], password):
+#        error = 'Incorrect password.'
+#    return error is None
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
@@ -168,9 +177,10 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['user_id']
-            g.user = username
+            session['username'] = user['username']
+            #g.user = user['username']
+            session['token'] = generate_token()
             return redirect(url_for('index'))
-
         flash(error)
 
     return render_template('auth/login.html')

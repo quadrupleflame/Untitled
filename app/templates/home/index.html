@@ -26,6 +26,7 @@
     {% endif %}
   {% endfor %}
   {% if g.user %}
-  	<p> welcome {{g.user}}</p>
+  	<p> welcome {{g.user['username']}}</p>
+	<p> token: {{session['token']}} </p>
   {% endif %}
 {% endblock %}
